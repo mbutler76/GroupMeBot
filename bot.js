@@ -5,23 +5,38 @@ var botID = process.env.BOT_ID;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
-      botRegex = /^\/cool guy$/;
+      coolRegex = /^\/cool guy$/,
+      gifRegex = /^\/gif$/;
 
   if(request.text && botRegex.test(request.text)) {
     this.res.writeHead(200);
-    postMessage();
+    postMessage("Hello", botID);
     this.res.end();
-  } else {
+  } 
+  else if(request.text && botRegex.test(request.text)) {
+    searchTerm = request.text.substr(6);
+    this.res.writeHead(200);
+    gif(searchTerm);
+    this.res.end();
+  }
+  else {
     console.log("don't care");
     this.res.writeHead(200);
     this.res.end();
   }
 }
 
-function postMessage() {
-  var botResponse, options, body, botReq;
+function gif(searchTerm) {
+  request('http://api.giphy.com/v1/gifs/translate?s=' + searchTerm + '&api_key=dc6zaTOxFJmzC&rating=r', function (error, response, body) {
+  if (!error && response.statusCode == 200) {
+    parsedData = JSON.parse(body),
+    postMessage(parsedData.data.images.downsized.url, botID, parsedData.data.images.downsized.size);
+    } 
+  }); 
+} 
 
-  botResponse = "Test change";
+function postMessage(botResponse, botID, size) {
+  var options, body, botReq;
 
   options = {
     hostname: 'api.groupme.com',
