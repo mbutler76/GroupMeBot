@@ -1,33 +1,27 @@
+//Create a bot on dev.groupme.com, assign it to the group you want it to live in
+//Login in to your heroku account and input the Bot ID as your config variable named BOT_ID
+//Type /g "Search Term" to display Gifs in your chat
+
 var HTTPS = require('https');
 var request = require('request');
-var cool = require('cool-ascii-faces');
-
 var botID = process.env.BOT_ID;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
-     // coolRegex = /^\/cool guy$/,
-      gifRegex = /^\/gif$/;
-
- /* if(request.text && botRegex.test(request.text)) {
+  trigger = request.text.substring(0,2);
+  //establishes the "trigger zone" as the first 2 characters of every message
+  //gifbot will now scan the first two characters of every message for the trigger that you establish.
+  // if you want to use a trigger longer than 2 characters you will need to change the above substring command
+  
+  if (trigger == '/g' && request.name != 'gifbot') {
+    searchTerm = request.text.substr(3);
     this.res.writeHead(200);
-    postMessage("Hello", botID);
-    this.res.end();
-  }*/ 
-  /*else*/ if(request.text && botRegex.test(request.text)) {
-    searchTerm = request.text.substr(6);
-    this.res.writeHead(200);
-    gif(searchTerm);
-    this.res.end();
-  }
-  else {
-    console.log("don't care");
-    this.res.writeHead(200);
+    requestLink(searchTerm);
     this.res.end();
   }
 }
 
-function gif(searchTerm) {
+function requestLink(searchTerm) {
   request('http://api.giphy.com/v1/gifs/translate?s=' + searchTerm + '&api_key=dc6zaTOxFJmzC&rating=r', function (error, response, body) {
   if (!error && response.statusCode == 200) {
     parsedData = JSON.parse(body),
@@ -38,7 +32,6 @@ function gif(searchTerm) {
 
 function postMessage(botResponse, botID, size) {
   var options, body, botReq;
-
   options = {
     hostname: 'api.groupme.com',
     path: '/v3/bots/post',
@@ -47,10 +40,10 @@ function postMessage(botResponse, botID, size) {
 
   body = {
     "bot_id" : botID,
-    "text" : botResponse
+    "text" : botResponse 
   };
 
-  console.log('sending ' + botResponse + ' to ' + botID);
+  console.log('sending ' + botResponse + ' size: ' + size);
 
   botReq = HTTPS.request(options, function(res) {
       if(res.statusCode == 202) {
@@ -59,7 +52,6 @@ function postMessage(botResponse, botID, size) {
         console.log('rejecting bad status code ' + res.statusCode);
       }
   });
-
   botReq.on('error', function(err) {
     console.log('error posting message '  + JSON.stringify(err));
   });
@@ -68,6 +60,5 @@ function postMessage(botResponse, botID, size) {
   });
   botReq.end(JSON.stringify(body));
 }
-
 
 exports.respond = respond;
