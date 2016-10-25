@@ -5,15 +5,15 @@ var botID = process.env.BOT_ID;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
-      coolRegex = /^\/cool guy$/,
+     // coolRegex = /^\/cool guy$/,
       gifRegex = /^\/gif$/;
 
-  if(request.text && botRegex.test(request.text)) {
+ /* if(request.text && botRegex.test(request.text)) {
     this.res.writeHead(200);
     postMessage("Hello", botID);
     this.res.end();
-  } 
-  else if(request.text && botRegex.test(request.text)) {
+  }*/ 
+  /*else*/ if(request.text && botRegex.test(request.text)) {
     searchTerm = request.text.substr(6);
     this.res.writeHead(200);
     gif(searchTerm);
