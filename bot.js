@@ -5,18 +5,11 @@ var botID = process.env.BOT_ID;
 
 function respond() {
   var request = JSON.parse(this.req.chunks[0]),
-     // coolRegex = /^\/cool guy$/,
-      gifRegex = /^\/gif$/;
+     botRegex = /^\/test$/;
 
- /* if(request.text && botRegex.test(request.text)) {
+ if(request.text && botRegex.test(request.text)) {
     this.res.writeHead(200);
     postMessage("Hello", botID);
-    this.res.end();
-  }*/ 
-  /*else*/ if(request.text && botRegex.test(request.text)) {
-    searchTerm = request.text.substr(6);
-    this.res.writeHead(200);
-    gif(searchTerm);
     this.res.end();
   }
   else {
@@ -35,9 +28,11 @@ function gif(searchTerm) {
   }); 
 } 
 
-function postMessage(botResponse, botID, size) {
-  var options, body, botReq;
+function postMessage() {
+  var options, body, botReq, botResponse;
 
+  botResponse = "test";
+  
   options = {
     hostname: 'api.groupme.com',
     path: '/v3/bots/post',
