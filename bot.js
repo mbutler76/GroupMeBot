@@ -24,7 +24,7 @@ function potySearch() {
     var xhttp = new XMLHttpRequest();
   xhttp.open("GET", "https://api.groupme.com/v3/groups/41931948/messages?limit=100&token=GI06VY9NNHhWwfwILfIJFCCXaPpLE5XizxSUcmdH", true);
   var response = xhttp.send();
-  console.log(response.messages[0]);
+  postMessage(response, botID);
   //});
 }
 
