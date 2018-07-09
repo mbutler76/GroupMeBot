@@ -20,11 +20,12 @@ function respond() {
 }
 
 function potySearch() {
-  request('https://api.groupme.com/v3/groups/41931948/messages?limit=100&token=GI06VY9NNHhWwfwILfIJFCCXaPpLE5XizxSUcmdH', function (error, response, body) {
-    console.log('error:', error); // Print the error if one occurred
-  console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-  console.log('body:', body);
-  });
+  //request('https://api.groupme.com/v3/groups/41931948/messages?limit=100&token=GI06VY9NNHhWwfwILfIJFCCXaPpLE5XizxSUcmdH', function (error, response, body) {
+    var xhttp = new XMLHttpRequest();
+  xhttp.open("GET", "https://api.groupme.com/v3/groups/41931948/messages?limit=100&token=GI06VY9NNHhWwfwILfIJFCCXaPpLE5XizxSUcmdH", true);
+  var response = xhttp.send();
+  console.log(response);
+  //});
 }
 
 function postMessage(botResponse, botID) {
