@@ -23,7 +23,7 @@ function respond() {
 
 function potySearch() {
   //request('https://api.groupme.com/v3/groups/41931948/messages?limit=100&token=GI06VY9NNHhWwfwILfIJFCCXaPpLE5XizxSUcmdH', function (error, response, body) {
-    cosole.log("inside before");
+    console.log("inside before");
     var xhttp = new XMLHttpRequest();
   xhttp.open("GET", "https://api.groupme.com/v3/groups/41931948/messages?limit=100&token=GI06VY9NNHhWwfwILfIJFCCXaPpLE5XizxSUcmdH", true);
   var response = xhttp.send();
