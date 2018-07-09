@@ -1,6 +1,5 @@
 var HTTPS = require('https');
-var cool = require('cool-ascii-faces');
-
+var request = require('request');
 var botID = process.env.BOT_ID;
 
 function respond() {
@@ -9,7 +8,8 @@ function respond() {
 
  if(request.text && botRegex.test(request.text)) {
     this.res.writeHead(200);
-    postMessage("Hello", botID);
+    potySearch();
+    //postMessage("Hello", botID);
     this.res.end();
   }
   else {
@@ -19,20 +19,17 @@ function respond() {
   }
 }
 
-function gif(searchTerm) {
-  request('http://api.giphy.com/v1/gifs/translate?s=' + searchTerm + '&api_key=dc6zaTOxFJmzC&rating=r', function (error, response, body) {
-  if (!error && response.statusCode == 200) {
-    parsedData = JSON.parse(body),
-    postMessage(parsedData.data.images.downsized.url, botID, parsedData.data.images.downsized.size);
-    } 
-  }); 
-} 
+function potySearch() {
+  request('https://api.groupme.com/v3/groups/41931948/messages?limit=100&token=GI06VY9NNHhWwfwILfIJFCCXaPpLE5XizxSUcmdH', function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      parsedData = JSON.parse(body),
+      postMessage(parsedData.messages, botID);
+      } 
+  });
+}
 
-function postMessage() {
-  var options, body, botReq, botResponse;
-
-  botResponse = "test";
-  
+function postMessage(botResponse, botID) {
+  var options, body, botReq;
   options = {
     hostname: 'api.groupme.com',
     path: '/v3/bots/post',
@@ -41,10 +38,10 @@ function postMessage() {
 
   body = {
     "bot_id" : botID,
-    "text" : botResponse
+    "text" : botResponse 
   };
 
-  console.log('sending ' + botResponse + ' to ' + botID);
+  console.log('sending ' + botResponse);
 
   botReq = HTTPS.request(options, function(res) {
       if(res.statusCode == 202) {
@@ -53,7 +50,6 @@ function postMessage() {
         console.log('rejecting bad status code ' + res.statusCode);
       }
   });
-
   botReq.on('error', function(err) {
     console.log('error posting message '  + JSON.stringify(err));
   });
