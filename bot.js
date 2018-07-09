@@ -21,10 +21,9 @@ function respond() {
 
 function potySearch() {
   request('https://api.groupme.com/v3/groups/41931948/messages?limit=100&token=GI06VY9NNHhWwfwILfIJFCCXaPpLE5XizxSUcmdH', function (error, response, body) {
-    if (!error && response.statusCode == 200) {
-      parsedData = JSON.parse(body),
-      postMessage(parsedData.messages, botID);
-      } 
+    console.log('error:', error); // Print the error if one occurred
+  console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+  console.log('body:', body);
   });
 }
 
