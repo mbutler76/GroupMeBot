@@ -1,5 +1,5 @@
 var HTTPS = require('https');
-//var request = require('request');
+var request = require('request');
 var botID = process.env.BOT_ID;
 
 function respond() {
@@ -22,15 +22,11 @@ function respond() {
 }
 
 function potySearch() {
-  //request('https://api.groupme.com/v3/groups/41931948/messages?limit=100&token=GI06VY9NNHhWwfwILfIJFCCXaPpLE5XizxSUcmdH', function (error, response, body) {
-    console.log("inside before");
-    var XMLHttpRequest = require('xhr2');
-var xhr = new XMLHttpRequest();
-  xhr.open("GET", "https://api.groupme.com/v3/groups/41931948/messages?limit=100&token=GI06VY9NNHhWwfwILfIJFCCXaPpLE5XizxSUcmdH", true);
-  var response = xhr.send();
-  postMessage(response, botID);
-  console.log("inside after");
-  //});
+  request('https://api.groupme.com/v3/groups/41931948/messages?limit=100&token=GI06VY9NNHhWwfwILfIJFCCXaPpLE5XizxSUcmdH', function (error, response, body) {
+    if (error) { return console.log(error); }
+  console.log(response);
+  console.log(body);
+  });
 }
 
 function postMessage(botResponse, botID) {
