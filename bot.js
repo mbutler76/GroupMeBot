@@ -8,7 +8,9 @@ function respond() {
 
  if(request.text && botRegex.test(request.text)) {
     this.res.writeHead(200);
+    console.log("before");
     potySearch();
+    console.log("after");
     //postMessage("Hello", botID);
     this.res.end();
   }
@@ -21,10 +23,12 @@ function respond() {
 
 function potySearch() {
   //request('https://api.groupme.com/v3/groups/41931948/messages?limit=100&token=GI06VY9NNHhWwfwILfIJFCCXaPpLE5XizxSUcmdH', function (error, response, body) {
+    cosole.log("inside before");
     var xhttp = new XMLHttpRequest();
   xhttp.open("GET", "https://api.groupme.com/v3/groups/41931948/messages?limit=100&token=GI06VY9NNHhWwfwILfIJFCCXaPpLE5XizxSUcmdH", true);
   var response = xhttp.send();
   postMessage(response, botID);
+  console.log("inside after");
   //});
 }
 
